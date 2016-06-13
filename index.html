@@ -1,1 +1,134 @@
-RileyisBae 
+	<html>
+        <head>
+        <style>
+
+html, body{
+	margin:0;
+	padding:0;
+	overflow:hidden; /* hide the scroll bar */
+}
+
+#snowingScreen{
+	background-color:#ccc;
+    
+}
+
+.snow{
+	color:white;
+	width:10px;
+	height:10px;
+}
+         </style>
+
+         </head>
+        <body>
+
+		<div id="snowingScreen"></div>
+	<script>
+$(document).ready(function(){    
+
+	// get the height and width of the browser window
+	var windowHeight = $(window).height();
+	var windowWidth = $(window).width();
+
+	// set the height and width of the #snowingScreen div equivalent to that of the window's
+	$('#snowingScreen').css('height', windowHeight);
+	$('#snowingScreen').css('width', windowWidth);	
+
+
+	// this function is to generate snow randomly scattered around screen
+	function generateSnow() {
+		
+		// generate snow using a for loop
+		for(i=0; i<4; i++){
+		
+			// randomize the top position of the snow
+			var snowTop = Math.floor(Math.random()* (windowHeight/2) );		
+			
+			// randomize the left position of the snow
+			var snowLeft = Math.floor(Math.random()* (windowWidth - 10) );	
+	
+			// appending the snow to the #snowingScreen
+			$('body').append(
+			
+				// generate the div representing the snow and setting properties using various jQuery methods				
+				$('<div />')
+					.addClass('snow')
+					.css('top', snowTop)
+					.css('left', snowLeft)
+                    .css('position','absolute')
+                .html('*')
+			);
+		
+		}
+	
+		// repeat the generateSnow() function for each 3000 seconds
+        window.setTimeout(generateSnow, 3000);  	
+	
+	}
+	
+	// this function is to alter the top of each snow, using the handy .each() jQuery method
+    function snowFalling(){
+	
+		// move the snow
+		$('.snow').each(function(key, value){
+		
+			// check if the snow has reached the bottom of the screen
+			if( parseInt($(this).css('top')) > windowHeight - 80 ) {
+				
+				// remove the snow from the HTML DOM structure
+				$(this).remove();
+			}		
+		
+			// set up a random speed
+			var fallingSpeed = Math.floor(Math.random() * 5 + 1);
+			
+			// set up a random direction for the snow to move
+			var movingDirection = Math.floor(Math.random()*2);
+		
+			// get the snow's current top
+			var currentTop = parseInt($(this).css('top'));		
+			
+			// get the snow's current top
+			var currentLeft = parseInt($(this).css('left'));				
+		
+			// set the snow's new top
+			$(this).css('top', currentTop + fallingSpeed );	
+
+			// check if the snow should move to left or move to right
+			if( movingDirection === 0){
+			
+				// set the snow move to right
+				$(this).css('left', currentLeft + fallingSpeed );	
+				
+			}else {
+			
+				// set the snow move to left
+				$(this).css('left', currentLeft + -(fallingSpeed) );				
+			
+			}					
+			
+		});	
+        jQuery(this).click(function() {
+            alert('You Clicked');
+        });
+				
+		// repeat the rollIt() function for each 200 microseconds
+        window.setTimeout(snowFalling, 200);     		
+		
+    }        
+
+	// call the function when the document is loaded completely
+    generateSnow();   
+	snowFalling();
+    
+});
+
+
+         </script>	
+	</body>
+
+        </html>
+
+
+        
